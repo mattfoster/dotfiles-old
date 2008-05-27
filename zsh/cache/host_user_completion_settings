@@ -1,0 +1,20 @@
+#!/bin/zsh -f
+
+
+
+#===========
+# host setup
+#===========
+
+USE_SSH_KNOWN_HOSTS='yes'
+USE_CUSTOM_HOSTS='no'
+USE_ETC_HOSTS='yes'
+
+
+
+#===========
+# user setup
+#===========
+
+USE_ETC_USERS='yes'
+USE_CUSTOM_USERS='no'

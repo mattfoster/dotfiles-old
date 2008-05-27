@@ -1,0 +1,15 @@
+[user]
+	name = Matt Foster
+	email = matt.p.foster@gmail.com
+[alias]
+	co = checkout
+	ci = checkin
+	st = status
+[apply]
+	whitespace = nowarn
+[color]
+	status = auto
+	branch = auto
+	pager = true
+	ui = always
+	diff = true

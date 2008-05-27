@@ -1,0 +1,104 @@
+*showpairs.txt* Highlights the pair surrounding the cursor.
+
+               By Anthony Kruize <trandor@gmail.com>
+
+ShowPairs highlights pairs surrounding the current cursor position.
+The main goal of this script is to highlight matching braces and parenthesis
+making it easier to edit nested expressions.
+
+ShowPairs uses the |matchpairs| global option to determine which pairs to
+highlight. To make ShowPairs highlight a specific pair, simply add it to the
+|matchpairs| option.
+
+ShowPairs is activated by the |CursorHold| |autocommand| which is triggered
+every |updatetime| milliseconds.  This is set to 4000(4 seconds) by default.
+If this is too slow, setting it to a lower value will make it more responsive.
+
+===============================================================================
+1. Contents                                    *showpairs* *showpairs-contents*
+
+    1. Contents	             |showpairs-contents|
+    2. Configuration         |showpairs-configuration|
+    3. Highlighting          |showpairs-highlighting|
+    4. Commands              |showpairs-commands|
+    5. ChangeLog             |showpairs-changelog|
+
+    Appendix
+    A. Using matchpairs      |matchpairs|
+    B. Defining updatetime   |updatetime|
+    C. Defining a mapleader  |mapleader|
+    D. Defining highlighting |highlight|
+
+===============================================================================
+2. Configuration                                      *showpairs-configuration*
+
+ShowPairs can be configured to suit your needs.
+The following options can be added to your |vimrc| to change how ShowPairs
+behaves:
+
+                                                           *'showpairs_enable'*
+'showpairs_enable'      boolean (default: 1)
+                        global
+   This option enables or disables ShowPairs on startup. Normally ShowPairs
+   will be enabled when Vim starts, setting this to 0 will disable ShowPairs
+   by default.
+   ShowPairs can be turned back on using the |ShowPairsToggle| command.
+
+                                                            *'showpairs_limit'*
+'showpairs_limit'       integer (default: 150)
+                        global
+   This option specifies the number of lines that ShowPairs will scan on either
+   side of the current line for pairs.
+
+===============================================================================
+3. Highlighting                                        *showpairs-highlighting*
+
+ShowPairs uses the following highlighting group to define the colours used to
+highlight the matched pairs.
+
+  - ShowPairsHL  : This group is used to highlight the pair surrounding the
+                   cursor.
+  - ShowPairsHLp : This group is used to highlight the pair to the character
+                   under the cursor.
+  - ShowPairsHLe : This group is used to highlight an unmatched pair.
+
+You can define your own highlighting for these groups in your |vimrc|.
+For example: >
+
+  highlight ShowPairsHL guifg=red guibg=green gui=bold
+<
+See |highlight| for more information.
+
+===============================================================================
+4. Commands                                                *showpairs-commands*
+
+                                                              *ShowPairsToggle*
+:ShowPairsToggle
+   This command will toggle the display of matching pairs on or off.
+
+===============================================================================
+5. ChangeLog                                              *showpairs-changelog*
+
+2.1 - 2006-02-08
+  Fixed the highlighting so it works when 'fg' and 'bg' aren't yet defined.
+  Fixed InsertEnter being a Vim 7 only event...oops.
+
+2.0 - 2006-02-07
+  Complete rewrite.
+  No longer moves the cursor around.
+    This means that:
+    - The jumplist is no longer affected.
+    - No more shifting positions on horizontally scrolled windows.
+  Added support for highlighting the pair that matches the character under the
+    cursor.
+  Added support for toggling ShowPairs on or off.
+  Added a help file. HelpExtractor by Charles E. Campbell is used to install.
+
+1.1 - 2003-04-27
+   Fixed the fileformat so it doesn't include ^M's.
+   Fixed the highlighting so it works when 'fg' and 'bg' aren't yet defined.
+
+1.0 - 2003-04-22
+   First release.
+
+vim:tw=78:ts=8:ft=help

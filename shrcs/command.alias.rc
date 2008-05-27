@@ -1,0 +1,40 @@
+if [[ -e ~/.dircolors ]]; then
+  eval $(dircolors -b ~/.dircolors)
+fi
+
+# Set up pretty listing colours. I prefer these GNU utils.
+# for prog in /sw/bin/dircolors /sw/bin/ls /sw/bin/dir /sw/bin/date; do
+#   if [[ "`which $prog`" != "$prog not found" ]]; then
+#     # eval "$(basename $prog)=$prog"
+#     eval "${prog##*/}=$prog" # Basename without a new proc.
+#   fi
+# done
+
+# Bash command aliases.
+export PAGER='less'
+export LESS='-R'
+
+# colourise 'ls' and 'grep'
+export LS_OPTS='--color'
+export GREP_OPTIONS='--color=auto'
+
+export RI='-f ansi --width 70'
+
+alias l='ls $LS_OPTS'
+alias ll='ls -al $LS_OPTS'
+alias ls='ls $LS_OPTS'
+alias lh='ls -Alh $LS_OPTS'
+alias r='fc -s'
+alias lm='ls -dF'
+
+alias indent='indent -kr --tab-size3'
+alias info='pinfo'
+alias xpdf='evince'
+alias octave='octave -q'
+alias xfig='xfig -specialtext -latexfonts -startlatexFont default'
+
+alias date=$date
+
+alias octave='/Applications/Octave.app/Contents/Resources/bin/octave -q'
+
+# vim:foldmethod=marker:filetype=zsh

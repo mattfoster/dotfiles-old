@@ -1,0 +1,20 @@
+# mime coolness
+if [[ $(uname) == "Darwin" ]]; then
+	alias -s {png,jpg,jpeg,gif,tiff,pgm,eps,ps,pdf}=${VIEWER}
+else
+	alias -s {png,jpg,gif,tiff,pgm}='feh -FZ'
+fi
+
+alias -s dvi=xdvi
+alias -s pdf=xpdf
+alias -s e{,ps}=gv
+alias -s ogg=ogg123
+alias -s wmv=gxine
+alias -s mp3=gxine
+alias -s html=${BROWSER:-lynx}
+alias -s htm=${BROWSER:-lynx}
+alias -s tex=${EDITOR:-vi}
+alias -s txt=${PAGER:-less}
+
+# vim:foldmethod=marker:filetype=zsh
+

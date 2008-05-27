@@ -1,0 +1,334 @@
+# {{{ global aliases
+# These do not have to be at the beginning of the command line.
+# Avoid typing cd ../../ for going two dirs down and so on
+# Usage, e.g.: "$ cd ...' or just '$ ...' with 'setopt auto_cd'
+alias -g '...'='../..'
+alias -g '....'='../../..'
+# Usage is "$ somecommand C (this pipes it into 'wc -l'):
+alias -g BG='& exit'
+alias -g C='|wc -l'
+alias -g G='|grep'
+alias -g H='|head'
+alias -g Hl=' --help |& less -r'
+alias -g K='|keep'
+alias -g L='|less'
+alias -g M='|most'
+alias -g N='&>/dev/null'
+alias -g R='| tr A-z N-za-m'
+alias -g SL='| sort | less'
+alias -g S='| sort'
+alias -g T='|tail'
+alias -g V='| vim -'
+# }}}
+
+dvdburn () { growisofs -Z /dev/dvdrw1 -R -J $* }
+dvdadd () { growisofs -M /dev/dvdrw1 -R -J $* }
+
+mplay ()  { mpc play }
+mpause () { mpc toggle }
+mstop ()  { mpc stop }
+mrep ()   { mpc repeat }
+mlist ()  { mpc playlist }
+
+# Function Usage: doc packagename
+doc() { cd /usr/share/doc/$1 && ls }
+gdoc() { cd /usr/share/doc/$1 && gvim . }
+_doc() { _files -W /usr/share/doc -/ }
+compdef _doc doc
+
+# debian upgrade
+upgrade () {
+	if [ -z $1 ] ; then
+		sudo apt-get update
+		sudo apt-get -u upgrade
+	else
+		ssh $1 sudo apt-get update
+		# ask before the upgrade
+		local dummy
+		ssh $1 sudo apt-get --no-act upgrade
+		echo -n "Process the upgrade ?"
+		read -q dummy
+		if [[ $dummy == "y" ]] ; then
+			ssh $1 sudo apt-get -u upgrade --yes
+		fi
+	fi
+}
+
+tunnel_home() {
+ ssh -p 2200 matt@localhost
+}
+
+
+# make screenshot of current desktop (use 'import' from ImageMagic)
+sshot() {
+	[[ ! -d ~/shots  ]] && mkdir ~/shots
+	cd ~/shots ; sleep 5; import -window root shot_`date --iso-8601=m`.jpg
+}
+
+# grep the history
+greph () { history 0 | grep $1 }
+(grep --help 2>/dev/null |grep -- --color) >/dev/null && \
+alias grep='grep --color=auto' # use colors when GNU grep with color-support
+alias GREP='grep -i --color=auto'
+
+# provide useful information on globbing
+H-Glob() {
+echo -e "
+/      directories
+.      plain files
+@      symbolic links
+=      sockets
+p      named pipes (FIFOs)
+*      executable plain files (0100)
+%      device files (character or block special)
+%b     block special files
+%c     character special files
+r      owner-readable files (0400)
+w      owner-writable files (0200)
+x      owner-executable files (0100)
+A      group-readable files (0040)
+I      group-writable files (0020)
+E      group-executable files (0010)
+R      world-readable files (0004)
+W      world-writable files (0002)
+X      world-executable files (0001)
+s      setuid files (04000)
+S      setgid files (02000)
+t      files with the sticky bit (01000)
+print *(m-1)          # List files modified today.
+print *(a1)           # List files accessed one day ago.
+print *(@)            # Print links.
+print *(Lk+50)        # List files > 50 Kilobytes.
+print *(Lk-50)        # List files < 50 Kilobytes.
+print **/*.c          # Recursively list all c files.
+print **/*.c~file.c   # List all c files, except file.c
+print (foo|bar).*     # List files whos names start foo or bar.
+print *~*.*           # 
+chmod 644 *(.^x)      # make all non-executable files publically readable
+print -l *(.c|.h)     # List all c and header files on their own lines. 
+print **/*(g:users:)  # Recursively list files with the group 'users'
+echo /proc/*/cwd(:h:t:s/self//) # Analogue of >ps ax | awk '{print $1}'<"
+}
+
+lcheck() {
+	nm -go /usr/lib/lib*.a 2>/dev/null | grep ":[[:xdigit:]]\{8\} . .*$1"":[[:xdigit:]]\{8\} . .*$1"
+}
+
+# clean up directory
+purge() {
+	FILES=(*~(N) .*~(N) \#*\#(N) *.o(N) a.out(N) *.core(N) *.cmo(N) *.cmi(N) .*.swp(N))
+	NBFILES=${#FILES}
+	if [[ $NBFILES > 0 ]]; then
+		print $FILES
+		local ans
+		echo -n "Remove this files? [y/n] "
+		read -q ans
+		if [[ $ans == "y" ]]
+		then
+			rm ${FILES}
+			echo ">> $PWD purged, $NBFILES files removed"
+		else
+			echo "Ok. .. than not.."
+		fi
+	fi
+}
+
+plap() {
+	if [[ $# = 0 ]]
+	then
+		echo "Usage:    $0 program"
+		echo "Example:  $0 zsh"
+		echo "Lists all occurrences of program in the current PATH."
+	else
+		ls -l ${^path}/*$1*(*N)
+	fi
+}
+
+# mkdir && cd
+mcd() { mkdir -p "$@"; cd "$@" }  # mkdir && cd
+
+# cd && ls
+cl() { cd $1 && ls -a }
+
+# Use vim to convert plaintext to HTML
+2html() { vim -u NONE -n -c ':syntax on' -c ':so $VIMRUNTIME/syntax/2html.vim' -c ':wqa' $1 > /dev/null 2> /dev/null }
+
+# Usage: simple-extract <file>
+# Description: extracts archived files (maybe)
+simple-extract () {
+if [[ -f $1 ]]
+then
+	case $1 in
+		*.tar.bz2)  bzip2 -v -d $1      ;;
+		*.tar.gz)   tar -xvzf $1        ;;
+		*.rar)      unrar $1            ;;
+		*.deb)      ar -x $1            ;;
+		*.bz2)      bzip2 -d $1         ;;
+		*.lzh)      lha x $1            ;;
+		*.gz)       gunzip -d $1        ;;
+		*.tar)      tar -xvf $1         ;;
+		*.tgz)      gunzip -d $1        ;;
+		*.tbz2)     tar -jxvf $1        ;;
+		*.zip)      unzip $1            ;;
+		*.Z)        uncompress $1       ;;
+		*)          echo "'$1' Error. Please go away" ;;
+	esac
+else
+	echo "'$1' is not a valid file"
+fi
+}
+
+# Usage: smartcompress <file> (<type>)
+# Description: compresses files or a directory.  Defaults to tar.gz
+smartcompress() {
+	if [ $2 ]; then
+		case $2 in
+			tgz | tar.gz)   tar -zcvf$1.$2 $1 ;;
+			tbz2 | tar.bz2) tar -jcvf$1.$2 $1 ;;
+			tar.Z)          tar -Zcvf$1.$2 $1 ;;
+			tar)            tar -cvf$1.$2  $1 ;;
+			gz | gzip)      gzip           $1 ;;
+			bz2 | bzip2)    bzip2          $1 ;;
+			*)
+			echo "Error: $2 is not a valid compression type"
+			;;
+		esac
+	else
+		smartcompress $1 tar.gz
+	fi
+}
+
+# Usage: show-archive <archive>
+# Description: view archive without unpack
+show-archive() {
+if [[ -f $1 ]]
+then
+	case $1 in
+		*.tar.gz)      gunzip -c $1 | tar -tf - -- ;;
+		*.tar)         tar -tf $1 ;;
+		*.tgz)         tar -ztf $1 ;;
+		*.zip)         unzip -l $1 ;;
+		*.bz2)         bzless $1 ;;
+		*)             echo "'$1' Error. Please go away" ;;
+	esac
+else
+	echo "'$1' is not a valid archive"
+fi
+}
+
+# Use 'view' to read manpages, if u want colors, regex - search, ...
+# like vi(m).
+# It's shameless stolen from <http://www.vim.org/tips/tip.php?tip_id=167>
+vman() { man $* | col -b | view -c 'set ft=man nomod nolist' - }
+gvman() { man $* | col -b | gview -c 'set ft=man nomod nolist' - }
+
+# search for various types or README file in dir and display them in $PAGER
+# function readme() { $PAGER -- (#ia3)readme* }
+readme() {
+	local files
+	files=(./(#i)*(read*me|lue*m(in|)ut)*(ND))
+	if (($#files))
+	then $PAGER $files
+	else
+		print 'No README files.'
+	fi
+}
+
+# Reload functions.
+refunc() {
+	for func in $argv
+	do
+		unfunction $func
+		autoload $func
+	done
+}
+
+# a small check to see which DIR is located on which server/partition.
+# stolen and modified from Sven's zshrc.forall
+dirspace() {
+	for dir in $path;
+	do
+		(cd $dir; echo "-<$dir>"; du -shx .; echo);
+	done
+}
+
+# $ show_print `cat /etc/passwd`
+slow_print() {
+	for argument in "${@}"
+	do
+		for ((i = 1; i <= ${#1} ;i++)) {
+			print -n "${argument[i]}"
+			sleep 0.08
+		}
+		print -n " "
+	done
+	print ""
+}
+
+status() {
+	print ""
+	print "Date..: "$(date "+%Y-%m-%d %H:%M:%S")""
+	print "Shell.: Zsh $ZSH_VERSION (PID = $$, $SHLVL nests)"
+	print "Term..: $TTY ($TERM), $BAUD bauds, $COLUMNS x $LINES cars"
+	print "Login.: $LOGNAME (UID = $EUID) on $HOST"
+	print "System: $(cat /etc/[A-Za-z]*[_-][rv]e[lr]*)"
+	print "Uptime:$(uptime)"
+	print ""
+}
+
+# indent source code
+smart-indent() {
+	indent -npro -kr -i8 -ts8 -sob -l80 -ss -ncs $*
+}
+
+function rcfiles {
+    rc_home='matt@mungbean.ath.cx:'
+    zsh_rcfiles=( \
+    		~/.zsh{rc,env,/**/}(N:s#$HOME/##) \
+		~/.shrcs/**/(:s#$HOME/##) \
+    		~/.zprofile(N:s#$HOME/##)
+    	    )
+    
+    vim_rcfiles=( \
+    		~/.vim{rc,/**/}(N:s#$HOME/##)
+    	    )
+    
+    misc_rcfiles=( \
+    		~/.{bash,complete,ex,lftp,lynx,shell,ytalk}rc(N:s#$HOME/##) \
+    		~/.dircolors(N:s#$HOME/##)
+    	     )
+    
+    all_rcfiles=( $zsh_rcfiles $vim_rcfiles $misc_rcfiles )
+
+	print $all_rcfiles
+}
+
+function sendhome {
+    if [[ $#* -eq 0 ]]; then
+        echo 'Usage: sendhome <files>'
+        return 1
+    fi
+
+    if [[ "`which rsync`" != "rsync not found" ]]; then
+        pushd ~ >/dev/null
+        rsync -aHRuvz -e ssh $* $rc_home
+        if [[ $OLDPWD != $PWD ]] popd >/dev/null
+    else
+        echo rsync not found and no other transfer method implemented yet
+    fi
+}
+
+function gethome {
+    if [[ $#* -eq 0 ]]; then
+        echo 'Usage: gethome <files>'
+        return 1
+    fi
+
+    if [[ "`which rsync`" != "rsync not found" ]]; then
+        rsync -aHRuvz -e ssh $rc_home"$^^*" ~
+    else
+        echo rsync not found and no other transfer method implemented yet
+    fi
+}
+
+# vim:foldmethod=marker:filetype=zsh

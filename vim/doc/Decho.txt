@@ -1,0 +1,145 @@
+*decho.txt* Vim Code Debugger			 		Jun 07, 2004
+
+Author:  Charles E. Campbell, Jr.  <drNchipO@ScampbellPfamilyA.bizM>
+	  (remove NOSPAM from Campbell's email to use)
+
+
+==============================================================================
+1. Contents						*decho-contents*
+
+	1. Contents......................: |decho-contents|
+	2. Decho Manual..................: |decho|
+	3. Decho Global Variables........: |decho-var|
+	4. Decho History.................: |decho-history|
+
+	NOTE: as of version 7, Decho requires <cecutil.vim> for
+	:DechoOn and :DechoOff (they call SaveWinPosn() and
+	RestoreWinPosn() to retain the cursor/screen position)
+
+
+==============================================================================
+2. Decho Manual						*decho* *dfunc* *dret*
+
+	The Decho plugin supports the inlining of debugging code.  It allows
+	one to store debugging information along with scripts.
+
+	USAGE
+>
+	    Decho "a string"
+	    call Decho("another string")
+	    call Decho("yet","another","string")
+	    call Dfunc("funcname(".whatever.")")
+	    call Dredir("cmd")
+	    call Dret("funcname".whatever)
+	    DechoOn
+	    DechoOff
+	    Dhide
+	    Dshow
+<
+	The Decho call will put the string(s) passed to it into the debugging
+	window (by default, it will be called "DBG".  See |decho-var| for
+	how to change that).  Control characters embedded in the string will
+	be made visible with a ^A - ^Z transformation.
+
+	The Dfunc() and Dret() calls act as a pair.  A function to be debugged
+	should call, at entry, >
+
+		Dfunc("funcname("."any arguments".")")
+<
+	It should also call, just prior to any return point, >
+
+		Dret("funcname"."any arguments")
+<
+	In between, calls to Decho will have their strings preceded by "|"s,
+	one for every open Dfunc().  The Dret() will check to insure that it
+	is apparently returning from the last function passed to Dfunc().
+
+       							*DechoOn* *DechoOff*
+	DechoOn and DechoOff are convenient commands for enabling and disabling
+	Decho, Dfunc, and Dret calls.  DechoOff makes any line containing one
+	of those three strings (Decho, Dfunc, Dret) into a comment, DechoOn
+	removes the leading '"' on such lines.
+
+						*decho-dhide* *decho-dshow*
+	The Dhide and Dshow commands allow one to toggle the visibility of
+	the DBG-buffer.  They use the g:decho_hide variable, plus make any
+	current DBG-buffer hidden or visible as indicated.
+
+							*decho-redir* *Dredir*
+	The Dredir() function allows one to redirect (see |redir|) a command's
+	output to the debugging buffer.
+
+	EXAMPLE
+
+	Consider the following file: >
+	    let x="abc"
+	    let y="def"
+	    call Dfunc("testing(x=".x.")")
+	    call Decho("decho test #1")
+	    call Dfunc("Testing(y=".y.")")
+	    call Decho("decho test #2")
+	    call Dret("Testing")
+	    call Decho("decho test #3")
+	    call Dret("testing")
+<
+	Then sourcing with <Decho.vim> as a plugin (ie. already loaded) yields: >
+
+	    testing(x=abc) {
+	    |decho test #1
+	    |Testing(y=def) {
+	    ||decho test #2
+	    ||Testing }
+	    |decho test #3
+	    |testing }
+<
+
+==============================================================================
+3. Decho Global Variables				*decho-var*
+
+							*decho_bufname*
+   g:decho_bufname    :	by default "DBG" .  Sets the name of the debugging buffer
+			and window.
+							*decho_hide*
+   g:decho_hide       :	if set the DBG window will be hidden and will automatically
+			"q" each time it is used.  To see it, :e DBG .  Useful
+			for those applications that modify windows.
+							*decho_winheight*
+   g:decho_winheight  :	by default equal to 5 lines.  Specifies the height
+			of the debugging window.  Every Dfunc/Decho/Dret
+			call will resize that window to this height.
+
+
+==============================================================================
+4. Decho History					*decho-history*
+
+  v10 Jul 27, 2004 : * if g:decho_bufenter exists, Decho will ignore BufEnter
+                       events
+		     * Decho uses keepjumps to avoid altering the jumplist
+		       table
+		     * appending to the DBG buffer with Decho does not make
+		       it modified
+		     * Dredir(cmd) may be used to redirect command output
+		       to the DBG buffer.  Example:  call Dredir("cmd")
+   v9 Jun 18, 2004 : * Dfunc/Decho/Dret now immune to lcd changes in the DBG
+   		       buffer name
+                     * DechoOn and DechoOff now accept ranges
+   v8 Jun 06, 2004 : * Implemented Dhide and Dshow commands for toggling
+                       the DBG-buffer's visibility (see |decho_dhide|)
+   v7 Jun 02, 2004 : * made creation of	DBG window silent
+		     * g:decho_winheight implemented (see |decho_winheight|)
+		     * Dfunc/Decho/Dret	will always resize the DBG window to the
+		       number of lines specified by g:decho_winheight (dflt:5)
+		     * g:decho_hide implemented (see |decho_hide|)
+   v6 May 11, 2004 : * some bug	fixes
+   v5 Apr 20, 2004 : * Dfunc() - for entering a	function
+		     * Dret()  - for returning from a function
+   v4 Apr 20, 2004 :   Now makes control characters visible
+   v3 Aug 07, 2003 : * changed fixed "DBG" to g:decho_bufname to allow s/w to
+		       change the buffer name!
+		     * Now handles returning cursor to one of several windows
+		       and having multiple DBG-windows
+
+
+==============================================================================
+vim:tw=78:ts=8:ft=help
+
