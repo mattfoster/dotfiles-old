@@ -1,0 +1,17 @@
+#
+# System-wide NetHack configuration file for tty-based NetHack.
+#
+
+#OPTIONS=windowtype:tty,toptenwin,hilite_pet,hpmon
+OPTIONS=fixinv,safe_pet,sortpack,tombstone,color
+OPTIONS=verbose,news,
+
+OPTIONS=pickup_types:$
+OPTIONS=nomail
+
+OPTIONS=name:Matt
+OPTIONS=race:human
+OPTIONS=role:samurai
+OPTIONS=gender:male
+OPTIONS=dogname:Zepto
+OPTIONS=fruit:avocado
