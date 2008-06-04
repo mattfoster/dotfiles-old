@@ -32,8 +32,6 @@ endfunc
 set fileencoding=utf-8
 set encoding=utf-8
 
-set vb t_vb=
-
 let	g:showmarks_enable=0	" Disable showmarks by default - toggle with F4.
 
 " Switch syntax highlighting on, when the terminal has colors
@@ -41,6 +39,7 @@ let	g:showmarks_enable=0	" Disable showmarks by default - toggle with F4.
 if &t_Co > 2 || has("gui_running")
 	syntax on
 	set hlsearch
+	"set tabstop=4
 endif
 
 if $t_Co > 2
@@ -51,14 +50,16 @@ endif
 " Theme setting:
 if has("gui_running")
 	colorscheme biogoo	
-	set guifont=Monaco:h12
+	set guifont=Lucida\ Console\ Semi-Condensed\ 7.5
 	set guioptions=aegim
 endif
 
 map #2 :s/\([A-Z]\)\([A-Z][A-Z]*\)/\1\L\2/g<CR>
 map #3 :Tlist<CR>
 map #4 :ShowMarksToggle<CR>
-map <silent> 6 :e #<CR>
+
+
+
 " Number truncation:
 map <silent> ,,t  :. rubydo $_.gsub!(/(\d+\.\d+)/) { sprintf("%.*f", 2, $1.to_f) } <CR>
 map <silent> ,,td :rubydo $_.gsub!(/(\d+\.\d+)/) { sprintf("%.*f", 2, $1.to_f) } <CR>
@@ -127,19 +128,7 @@ if has("autocmd") && exists("+omnifunc")
 				\		setlocal omnifunc=syntaxcomplete#Complete |
 				\	endif
 endif
-if has('macunix')
-        let $PATH = '/usr/bin:/usr/local/bin:/opt/local/bin:/Users/matt/bin' 
-        let g:Tex_TreatMacViewerAsUNIX = 1
-        let g:Tex_ExecuteUNIXViewerInForeground = 1
-        let g:Tex_ViewRule_ps = 'skim'
-        let g:Tex_ViewRule_dvi = 'skim'
-        let g:Tex_ViewRule_pdf = 'skim'
-        let g:Tex_DefaultTargetFormat = 'ps'
-        let g:Tex_FormatDependency_ps = 'dvi,ps' 
-        " I won't always need this.
-        let g:Tex_FormatDependency_pdf = 'dvi,pdf'   
-        set enc=utf-8 tenc=macroman gfn=Monaco:h12
-        "let g:Tex_ViewRule_dvi = 'texniscope'
-endif
+
+
 
 set runtimepath=~/.vim,$VIMRUNTIME
