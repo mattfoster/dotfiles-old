@@ -28,13 +28,14 @@ alias r='fc -s'
 alias lm='ls -dF'
 
 alias indent='indent -kr --tab-size3'
-alias info='pinfo'
-alias xpdf='evince'
-alias octave='octave -q'
-alias xfig='xfig -specialtext -latexfonts -startlatexFont default'
 
-alias date=$date
+if [[ -e /Applications/Octave.app/Contents/Resources/bin/octave ]]; then
+	alias octave='/Applications/Octave.app/Contents/Resources/bin/octave -q'
+	else
+	alias octave='octave -q'
+fi
 
-alias octave='/Applications/Octave.app/Contents/Resources/bin/octave -q'
+alias bashrc='vi ~/.bashrc && source ~/.bashrc'
+alias zshrc='vi ~/.zshrc && source ~/.zshrc'
 
 # vim:foldmethod=marker:filetype=zsh
