@@ -148,10 +148,9 @@ fi
 autoload promptinit && promptinit && prompt doom green $COLOUR
 
 # See From Bash to Z Shell,  Page: 101 
-unalias run-help
+# unalias run-help
 autoload -Uz run-help
 export HELPDIR='/sw/share/zsh/zsh_help'
-
 alias help=run-help
 
 alias mv='nocorrect mv'
