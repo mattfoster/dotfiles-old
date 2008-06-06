@@ -1,5 +1,6 @@
 ssh/id_rsa.keystore
 config
 id_rsa
+id_rsa.pub
 id_rsa.keystore
 known_hosts
