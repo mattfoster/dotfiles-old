@@ -1,0 +1,8 @@
+# Useful functions for bundle developments
+
+function reload_textmate(){
+	osascript -e 'tell app "TextMate" to reload bundles'
+}
+function bundle () {
+	cd "$HOME/Library/Application Support/TextMate/Bundles/$1.tmbundle"
+}
