@@ -19,7 +19,25 @@ alias -g SL='| sort | less'
 alias -g S='| sort'
 alias -g T='|tail'
 alias -g V='| vim -'
+alias -g e='$EDITOR -a'
+if [[ "`which open`" != "open not found" ]]; then
+	alias -g o='open'
+fi
 # }}}
+
+# grep the history
+h () { history 0 | grep $1 }
+(grep --help 2>/dev/null |grep -- --color) >/dev/null && \
+alias grep='grep --color=auto' # use colors when GNU grep with color-support
+alias GREP='grep -i --color=auto'
+
+# mkdir && cd
+mcd() { mkdir -p "$@"; cd "$@" }  # mkdir && cd
+
+# cd && ls
+cl() { cd $1 && ls -a }
+
+# TODO: make these system dependent
 
 dvdburn () { growisofs -Z /dev/dvdrw1 -R -J $* }
 dvdadd () { growisofs -M /dev/dvdrw1 -R -J $* }
@@ -54,22 +72,12 @@ upgrade () {
 	fi
 }
 
-tunnel_home() {
- ssh -p 2200 matt@localhost
-}
-
 
 # make screenshot of current desktop (use 'import' from ImageMagic)
 sshot() {
 	[[ ! -d ~/shots  ]] && mkdir ~/shots
 	cd ~/shots ; sleep 5; import -window root shot_`date --iso-8601=m`.jpg
 }
-
-# grep the history
-greph () { history 0 | grep $1 }
-(grep --help 2>/dev/null |grep -- --color) >/dev/null && \
-alias grep='grep --color=auto' # use colors when GNU grep with color-support
-alias GREP='grep -i --color=auto'
 
 # provide useful information on globbing
 H-Glob() {
@@ -110,6 +118,7 @@ print **/*(g:users:)  # Recursively list files with the group 'users'
 echo /proc/*/cwd(:h:t:s/self//) # Analogue of >ps ax | awk '{print $1}'<"
 }
 
+# What is this!?
 lcheck() {
 	nm -go /usr/lib/lib*.a 2>/dev/null | grep ":[[:xdigit:]]\{8\} . .*$1"":[[:xdigit:]]\{8\} . .*$1"
 }
@@ -143,12 +152,6 @@ plap() {
 		ls -l ${^path}/*$1*(*N)
 	fi
 }
-
-# mkdir && cd
-mcd() { mkdir -p "$@"; cd "$@" }  # mkdir && cd
-
-# cd && ls
-cl() { cd $1 && ls -a }
 
 # Use vim to convert plaintext to HTML
 2html() { vim -u NONE -n -c ':syntax on' -c ':so $VIMRUNTIME/syntax/2html.vim' -c ':wqa' $1 > /dev/null 2> /dev/null }
@@ -281,54 +284,53 @@ smart-indent() {
 	indent -npro -kr -i8 -ts8 -sob -l80 -ss -ncs $*
 }
 
-function rcfiles {
-    rc_home='matt@mungbean.ath.cx:'
-    zsh_rcfiles=( \
-    		~/.zsh{rc,env,/**/}(N:s#$HOME/##) \
-		~/.shrcs/**/(:s#$HOME/##) \
-    		~/.zprofile(N:s#$HOME/##)
-    	    )
-    
-    vim_rcfiles=( \
-    		~/.vim{rc,/**/}(N:s#$HOME/##)
-    	    )
-    
-    misc_rcfiles=( \
-    		~/.{bash,complete,ex,lftp,lynx,shell,ytalk}rc(N:s#$HOME/##) \
-    		~/.dircolors(N:s#$HOME/##)
-    	     )
-    
-    all_rcfiles=( $zsh_rcfiles $vim_rcfiles $misc_rcfiles )
-
-	print $all_rcfiles
-}
-
-function sendhome {
-    if [[ $#* -eq 0 ]]; then
-        echo 'Usage: sendhome <files>'
-        return 1
-    fi
-
-    if [[ "`which rsync`" != "rsync not found" ]]; then
-        pushd ~ >/dev/null
-        rsync -aHRuvz -e ssh $* $rc_home
-        if [[ $OLDPWD != $PWD ]] popd >/dev/null
-    else
-        echo rsync not found and no other transfer method implemented yet
-    fi
-}
-
-function gethome {
-    if [[ $#* -eq 0 ]]; then
-        echo 'Usage: gethome <files>'
-        return 1
-    fi
-
-    if [[ "`which rsync`" != "rsync not found" ]]; then
-        rsync -aHRuvz -e ssh $rc_home"$^^*" ~
-    else
-        echo rsync not found and no other transfer method implemented yet
-    fi
-}
-
+# function rcfiles {
+#     rc_home='matt@mungbean.ath.cx:'
+#     zsh_rcfiles=( \
+#     		~/.zsh{rc,env,/**/}(N:s#$HOME/##) \
+# 		~/.shrcs/**/(:s#$HOME/##) \
+#     		~/.zprofile(N:s#$HOME/##)
+#     	    )
+#     
+#     vim_rcfiles=( \
+#     		~/.vim{rc,/**/}(N:s#$HOME/##)
+#     	    )
+#     
+#     misc_rcfiles=( \
+#     		~/.{bash,complete,ex,lftp,lynx,shell,ytalk}rc(N:s#$HOME/##) \
+#     		~/.dircolors(N:s#$HOME/##)
+#     	     )
+#     
+#     all_rcfiles=( $zsh_rcfiles $vim_rcfiles $misc_rcfiles )
+# 
+# 	print $all_rcfiles
+# }
+# 
+# function sendhome {
+#     if [[ $#* -eq 0 ]]; then
+#         echo 'Usage: sendhome <files>'
+#         return 1
+#     fi
+# 
+#     if [[ "`which rsync`" != "rsync not found" ]]; then
+#         pushd ~ >/dev/null
+#         rsync -aHRuvz -e ssh $* $rc_home
+#         if [[ $OLDPWD != $PWD ]] popd >/dev/null
+#     else
+#         echo rsync not found and no other transfer method implemented yet
+#     fi
+# }
+# 
+# function gethome {
+#     if [[ $#* -eq 0 ]]; then
+#         echo 'Usage: gethome <files>'
+#         return 1
+#     fi
+# 
+#     if [[ "`which rsync`" != "rsync not found" ]]; then
+#         rsync -aHRuvz -e ssh $rc_home"$^^*" ~
+#     else
+#         echo rsync not found and no other transfer method implemented yet
+#     fi
+# }
 # vim:foldmethod=marker:filetype=zsh

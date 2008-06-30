@@ -15,7 +15,7 @@ def link(file, target)
 end
 
 desc "link system specific files, and dotfiles."
-task :link_files => [ :link_system_specific, :link_dotfiles ] do
+task :link_files => [ :link_system_specifics, :link_dotfiles ] do
   puts "All dotiles linked."  
 end
 

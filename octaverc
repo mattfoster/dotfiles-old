@@ -1,0 +1,8 @@
+# Set up a prettier prompt
+PS1('\[\e[0;32m\]\u\[\e[m\] \[\e[1;34m\]\w\[\e[m\] \[\e[1;32m\]\$ \[\e[m\]\[\e[1;37m\]')
+# Editor settings
+edit author "Matt Foster"
+edit email "<matt.p.foster@gmail.com>"
+edit license bsd
+# don't wait for the editor to return
+edit mode async
