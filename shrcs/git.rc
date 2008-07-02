@@ -11,3 +11,7 @@ function gc {
     git checkout $1
   fi
 }
+
+alias gr='git-rebase'
+alias gsc='git-svn dcommit'
+alias gsr='git-svn rebase'
