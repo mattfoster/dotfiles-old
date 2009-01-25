@@ -12,5 +12,8 @@ Host *.bath.ac.uk
 Host my-mili.eu
  User mymilie
 
+Host eemc-tsar1
+        User charlie
+
 Host ee-copper
 	User ee1mpf
