@@ -1,7 +1,0 @@
-FILES="/opt/intel/fc/9.0/bin/ifortvars.sh /opt/intel/idb/9.0/bin/idbvars.sh"
-
-for file in $FILES; do
-	if [ -f $file ]; then
-		source $file
-	fi
-done
