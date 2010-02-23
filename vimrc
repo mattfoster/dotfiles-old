@@ -31,7 +31,7 @@ if &t_Co > 2 || has("gui_running")
 endif
 
 if $COLORTERM == 'gnome-terminal' 
-  set background dark
+  set background=dark
   set term=gnome-256color 
   colorscheme railscasts 
 else 
@@ -42,7 +42,8 @@ endif
 if has("gui_running")
   " colorscheme biogoo
   colorscheme railscasts
-  set guifont=Lucida\ Console\ Semi-Condensed\ 7.5
+  "set guifont=Lucida\ Console\ Semi-Condensed\ 7.5
+  set guifont=Monospace\ 8
   set guioptions=aegim
 endif
 
