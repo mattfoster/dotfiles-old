@@ -43,7 +43,7 @@ if has("gui_running")
   " colorscheme biogoo
   colorscheme railscasts
   "set guifont=Lucida\ Console\ Semi-Condensed\ 7.5
-  set guifont=Monospace\ 8
+  set guifont=Monospace\ 9
   set guioptions=aegim
 endif
 
@@ -57,7 +57,7 @@ map <silent> ,,t  :. rubydo $_.gsub!(/(\d+\.\d+)/) { sprintf("%.*f", 2, $1.to_f)
 map <silent> ,,td :rubydo $_.gsub!(/(\d+\.\d+)/) { sprintf("%.*f", 2, $1.to_f) } <CR>
 
 " make return clean the current search hilight.
-:nnoremap <silent> <CR> :noh<CR>
+":nnoremap <silent> <CR> :noh<CR>
 
 " Switch off the arrow keys :-)
 " :nnoremap <Up> <Nop>
@@ -76,8 +76,7 @@ if has("autocmd")
   autocmd FileType *xml   setlocal shiftwidth=2
   autocmd FileType matlab setlocal shiftwidth=2
   autocmd FileType ruby   setlocal shiftwidth=2
-  autocmd FileType *.pl   setlocal shiftwidth=4 tabstop=4
-  autocmd FileType *.pm   setlocal shiftwidth=4 tabstop=4
+  autocmd FileType perl   setlocal shiftwidth=4 tabstop=4 softtabstop=4
   au! BufRead,BufNewFile *.otl    setfiletype vo_base
   au! BufRead,BufNewFile *.oln    setfiletype xoutliner
   autocmd BufRead,BufNewFile *.py set ai
@@ -97,5 +96,6 @@ if has("autocmd") && exists("+omnifunc")
     \ endif
 endif
 
+"set runtimepath=~/.vim,$VIMRUNTIME
 call pathogen#runtime_append_all_bundles() 
 
