@@ -1,3 +1,20 @@
+" Directives for use with: http://github.com/bronson/vim-update-bundles
+" BUNDLE: http://github.com/ervandew/screen.git
+" BUNDLE: http://github.com/msanders/snipmate.vim.git
+" BUNDLE: http://github.com/petdance/vim-perl.git
+" BUNDLE: http://github.com/scrooloose/nerdcommenter.git
+" BUNDLE: http://github.com/scrooloose/nerdtree.git
+" BUNDLE: http://github.com/tpope/vim-fugitive.git
+" BUNDLE: http://github.com/tpope/vim-markdown.git
+" BUNDLE: http://github.com/tpope/vim-speeddating.git
+" BUNDLE: http://github.com/tpope/vim-surround.git
+" BUNDLE: http://github.com/vim-scripts/Align.git
+" BUNDLE: http://github.com/vim-scripts/AutoAlign.git
+" BUNDLE: http://github.com/vim-scripts/Railscasts-Theme-GUIand256color.git
+
+call pathogen#runtime_append_all_bundles() 
+call pathogen#helptags() 
+
 set nocompatible
 
 " allow backspacing over everything in insert mode
@@ -35,6 +52,7 @@ if $COLORTERM == 'gnome-terminal'
   set term=gnome-256color 
   colorscheme railscasts 
 else 
+  set background=dark
   colorscheme default 
 endif 
 
@@ -95,7 +113,3 @@ if has("autocmd") && exists("+omnifunc")
     \   setlocal omnifunc=syntaxcomplete#Complete |
     \ endif
 endif
-
-"set runtimepath=~/.vim,$VIMRUNTIME
-call pathogen#runtime_append_all_bundles() 
-
