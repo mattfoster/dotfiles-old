@@ -1,1 +1,1 @@
-source /Users/matt/Projects/zshkit/rc
+source $HOME/Projects/zshkit/rc
