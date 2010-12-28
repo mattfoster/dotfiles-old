@@ -1,16 +1,18 @@
-" Directives for use with: http://github.com/bronson/vim-update-bundles
-" BUNDLE: http://github.com/ervandew/screen.git
-" BUNDLE: http://github.com/msanders/snipmate.vim.git
-" BUNDLE: http://github.com/petdance/vim-perl.git
-" BUNDLE: http://github.com/scrooloose/nerdcommenter.git
-" BUNDLE: http://github.com/scrooloose/nerdtree.git
-" BUNDLE: http://github.com/tpope/vim-fugitive.git
-" BUNDLE: http://github.com/tpope/vim-markdown.git
-" BUNDLE: http://github.com/tpope/vim-speeddating.git
-" BUNDLE: http://github.com/tpope/vim-surround.git
-" BUNDLE: http://github.com/vim-scripts/Align.git
-" BUNDLE: http://github.com/vim-scripts/AutoAlign.git
-" BUNDLE: http://github.com/vim-scripts/Railscasts-Theme-GUIand256color.git
+" Directives for use with: https://github.com/bronson/vim-update-bundles
+" BUNDLE: https://github.com/ervandew/screen.git
+" BUNDLE: https://github.com/msanders/snipmate.vim.git
+" BUNDLE: https://github.com/petdance/vim-perl.git
+" BUNDLE: https://github.com/scrooloose/nerdcommenter.git
+" BUNDLE: https://github.com/scrooloose/nerdtree.git
+" BUNDLE: https://github.com/tpope/vim-fugitive.git
+" BUNDLE: https://github.com/tpope/vim-git.git
+" BUNDLE: https://github.com/tpope/vim-markdown.git
+" BUNDLE: https://github.com/tpope/vim-speeddating.git
+" BUNDLE: https://github.com/tpope/vim-surround.git
+" BUNDLE: https://github.com/vim-scripts/Align.git
+" BUNDLE: https://github.com/vim-scripts/AutoAlign.git
+" BUNDLE: https://github.com/vim-scripts/Railscasts-Theme-GUIand256color.git
+" BUNDLE: https://github.com/yko/mojo.vim.git
 
 call pathogen#runtime_append_all_bundles() 
 call pathogen#helptags() 
