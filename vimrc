@@ -11,6 +11,7 @@
 " BUNDLE: https://github.com/vim-scripts/Align.git
 " BUNDLE: https://github.com/vim-scripts/AutoAlign.git
 " BUNDLE: https://github.com/vim-scripts/Railscasts-Theme-GUIand256color.git
+" BUNDLE: https://github.com/yko/mojo.vim.git
 
 call pathogen#runtime_append_all_bundles() 
 call pathogen#helptags() 
