@@ -1,6 +1,5 @@
 " Directives for use with: https://github.com/bronson/vim-update-bundles
 " BUNDLE: https://github.com/ervandew/screen.git
-" BUNDLE: https://github.com/msanders/snipmate.vim.git
 " BUNDLE: https://github.com/petdance/vim-perl.git
 " BUNDLE: https://github.com/scrooloose/nerdcommenter.git
 " BUNDLE: https://github.com/scrooloose/nerdtree.git
@@ -12,6 +11,10 @@
 " BUNDLE: https://github.com/vim-scripts/AutoAlign.git
 " BUNDLE: https://github.com/vim-scripts/Railscasts-Theme-GUIand256color.git
 " BUNDLE: https://github.com/yko/mojo.vim.git
+" BUNDLE: https://github.com/vim-scripts/gnuplot.vim.git
+" BUNDLE: https://github.com/tomtom/tlib_vim.git
+" BUNDLE: https://github.com/garbas/vim-snipmate.git 
+" BUNLDE: https://github.com/MarcWeber/vim-addon-mw-utils.git
 
 call pathogen#runtime_append_all_bundles() 
 call pathogen#helptags() 
@@ -98,6 +101,7 @@ if has("autocmd")
   autocmd FileType perl   setlocal shiftwidth=4 tabstop=4 softtabstop=4
   au! BufRead,BufNewFile *.otl    setfiletype vo_base
   au! BufRead,BufNewFile *.oln    setfiletype xoutliner
+  au! BufRead,BufNewFile *.gp     setfiletype gnuplot
   autocmd BufRead,BufNewFile *.py set ai
   " When editing a file, always jump to the last known cursor position.
   " Don't do it when the position is invalid or when inside an event
