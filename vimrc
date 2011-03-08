@@ -13,8 +13,8 @@
 " BUNDLE: https://github.com/yko/mojo.vim.git
 " BUNDLE: https://github.com/vim-scripts/gnuplot.vim.git
 " BUNDLE: https://github.com/tomtom/tlib_vim.git
-" BUNDLE: https://github.com/garbas/vim-snipmate.git 
-" BUNLDE: https://github.com/MarcWeber/vim-addon-mw-utils.git
+" BUNDLE: git@github.com:mattfoster/vim-snipmate.git
+" BUNDLE: https://github.com/MarcWeber/vim-addon-mw-utils.git
 
 call pathogen#runtime_append_all_bundles() 
 call pathogen#helptags() 
