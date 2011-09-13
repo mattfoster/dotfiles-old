@@ -51,20 +51,11 @@ if &t_Co > 2 || has("gui_running")
   set hlsearch
 endif
 
-if $COLORTERM == 'gnome-terminal' 
-  set background=dark
-  set term=gnome-256color 
-  colorscheme railscasts 
-else 
-  set background=dark
-  colorscheme default 
-endif 
+set background=dark
+colorscheme railscasts
 
 " Theme setting:
 if has("gui_running")
-  " colorscheme biogoo
-  colorscheme railscasts
-  "set guifont=Lucida\ Console\ Semi-Condensed\ 7.5
   set guifont=Monospace\ 9
   set guioptions=aegim
 endif
@@ -78,14 +69,25 @@ map #4 :ShowMarksToggle<CR>
 map <silent> ,,t  :. rubydo $_.gsub!(/(\d+\.\d+)/) { sprintf("%.*f", 2, $1.to_f) } <CR>
 map <silent> ,,td :rubydo $_.gsub!(/(\d+\.\d+)/) { sprintf("%.*f", 2, $1.to_f) } <CR>
 
-" make return clean the current search hilight.
-":nnoremap <silent> <CR> :noh<CR>
-
 " Switch off the arrow keys :-)
 " :nnoremap <Up> <Nop>
 " :nnoremap <Down> <Nop>
 " :nnoremap <Left> <Nop>
 " :nnoremap <Right> <Nop>
+
+" Bracketed paste mode
+" From: http://stackoverflow.com/questions/5585129/pasting-code-into-terminal-window-into-vim-on-mac-os-x
+if &term =~ "xterm.*"
+    let &t_ti = &t_ti . "\e[?2004h"
+    let &t_te = "\e[?2004l" . &t_te
+    function XTermPasteBegin(ret)
+        set pastetoggle=<Esc>[201~
+        set paste
+        return a:ret
+    endfunction
+    map <expr> <Esc>[200~ XTermPasteBegin("i")
+    imap <expr> <Esc>[200~ XTermPasteBegin("")
+endif
 
 if has("autocmd")
   filetype plugin indent on
