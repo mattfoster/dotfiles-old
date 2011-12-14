@@ -15,9 +15,11 @@
 " BUNDLE: https://github.com/tomtom/tlib_vim.git
 " BUNDLE: git@github.com:mattfoster/vim-snipmate.git
 " BUNDLE: https://github.com/MarcWeber/vim-addon-mw-utils.git
+" BUNDLE: ack.vim
 
-call pathogen#runtime_append_all_bundles() 
-call pathogen#helptags() 
+runtime bundle/vim-pathogen/autoload/pathogen.vim
+" Bundle: tpope/vim-pathogen
+call pathogen#infect()
 
 set nocompatible
 
