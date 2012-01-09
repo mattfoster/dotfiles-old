@@ -1,21 +1,19 @@
 " Directives for use with: https://github.com/bronson/vim-update-bundles
-" BUNDLE: https://github.com/ervandew/screen.git
-" BUNDLE: https://github.com/petdance/vim-perl.git
-" BUNDLE: https://github.com/scrooloose/nerdcommenter.git
-" BUNDLE: https://github.com/scrooloose/nerdtree.git
-" BUNDLE: https://github.com/tpope/vim-fugitive.git
-" BUNDLE: https://github.com/tpope/vim-markdown.git
-" BUNDLE: https://github.com/tpope/vim-speeddating.git
-" BUNDLE: https://github.com/tpope/vim-surround.git
-" BUNDLE: https://github.com/vim-scripts/Align.git
-" BUNDLE: https://github.com/vim-scripts/AutoAlign.git
-" BUNDLE: https://github.com/vim-scripts/Railscasts-Theme-GUIand256color.git
-" BUNDLE: https://github.com/yko/mojo.vim.git
-" BUNDLE: https://github.com/vim-scripts/gnuplot.vim.git
-" BUNDLE: https://github.com/tomtom/tlib_vim.git
-" BUNDLE: git@github.com:mattfoster/vim-snipmate.git
-" BUNDLE: https://github.com/MarcWeber/vim-addon-mw-utils.git
-" BUNDLE: ack.vim
+" https://raw.github.com/bronson/vim-update-bundles/master/vim-update-bundles
+" Bundle: https://github.com/ervandew/screen.git
+" Bundle: https://github.com/petdance/vim-perl.git
+" Bundle: https://github.com/scrooloose/nerdtree.git
+" Bundle: https://github.com/tpope/vim-fugitive.git
+" Bundle: https://github.com/tpope/vim-markdown.git
+" Bundle: https://github.com/tpope/vim-speeddating.git
+" Bundle: https://github.com/tpope/vim-surround.git
+" Bundle: https://github.com/tpope/vim-commentary.git
+" Bundle: https://github.com/tomtom/tlib_vim.git
+" Bundle: https://github.com/MarcWeber/vim-addon-mw-utils.git
+" Bundle: Align
+" Bundle: Command-T
+" Bundle: Railscasts-Theme-GUIand256color
+" Bundle: https://github.com/altercation/vim-colors-solarized.git
 
 runtime bundle/vim-pathogen/autoload/pathogen.vim
 " Bundle: tpope/vim-pathogen
@@ -26,16 +24,16 @@ set nocompatible
 " allow backspacing over everything in insert mode
 set backspace=indent,eol,start
 
-set autoindent      " always set autoindenting on
-set history=50      " keep 50 lines of command line history
-set ruler      " show the cursor position all the time
-set showcmd      " display incomplete commands
-set incsearch      " do incremental searching
+set autoindent           " always set autoindenting on
+set history=50           " keep 50 lines of command line history
+set ruler                " show the cursor position all the time
+set showcmd              " display incomplete commands
+set incsearch            " do incremental searching
 set background=dark
-set showmatch 
+set showmatch
 set ignorecase
 set smartcase
-set hidden      " don't tell me to save a buffer before when I
+set hidden               " don't tell me to save a buffer before when I
 set smartindent
 set autoindent
 set expandtab
@@ -122,3 +120,63 @@ if has("autocmd") && exists("+omnifunc")
     \   setlocal omnifunc=syntaxcomplete#Complete |
     \ endif
 endif
+
+cnoremap %% <C-R>=expand('%:h').'/'<cr>
+map <leader>e :edit %%
+map <leader>v :view %%
+
+set winwidth=84
+" We have to have a winheight bigger than we want to set winminheight. But if
+" we set winheight to be huge before winminheight, the winminheight set will
+" fail.
+set winheight=5
+set winminheight=5
+set winheight=999
+
+set cursorline
+
+let mapleader=","
+nnoremap <leader><leader> <c-^>
+set scrolloff=3
+
+" Store temporary files in a central spot
+set backupdir=~/.vim-tmp,~/.tmp,~/tmp,/var/tmp,/tmp
+set directory=~/.vim-tmp,~/.tmp,~/tmp,/var/tmp,/tmp
+
+if has("vms")
+  set nobackup          " do not keep a backup file, use versions instead
+else
+  set backup            " keep a backup file
+endif
+
+" GRB: clear the search buffer when hitting return
+:nnoremap <CR> :nohlsearch<cr>
+
+" GRB: use emacs-style tab completion when selecting files, etc
+set wildmode=longest,list
+
+" GRB: Put useful info in status line
+:set statusline=%<%f\ (%{&ft})\ %-4(%m%)%=%-19(%3l,%02c%03V%)
+:hi User1 term=inverse,bold cterm=inverse,bold ctermfg=red
+
+" Remap the tab key to do autocompletion or indentation depending on the
+" context (from http://www.vim.org/tips/tip.php?tip_id=102)
+function! InsertTabWrapper()
+    let col = col('.') - 1
+    if !col || getline('.')[col - 1] !~ '\k'
+        return "\<tab>"
+    else
+        return "\<c-p>"
+    endif
+endfunction
+inoremap <tab> <c-r>=InsertTabWrapper()<cr>
+inoremap <s-tab> <c-n>
+
+map <leader>F :CommandTFlush<cr>\|:CommandT %%<cr>
+map <leader>f :CommandTFlush<cr>\|:CommandT<cr>
+map <leader>gt :CommandTFlush<cr>\|:CommandT tests<cr>
+
+" Don't use Ex mode, use Q for formatting
+map Q gq
+
+
