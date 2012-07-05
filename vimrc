@@ -11,10 +11,10 @@
 " Bundle: https://github.com/tomtom/tlib_vim.git
 " Bundle: https://github.com/MarcWeber/vim-addon-mw-utils.git
 " Bundle: Align
-" Bundle: Command-T
+" Bundle: https://github.com/kien/ctrlp.vim.git
 " Bundle: Railscasts-Theme-GUIand256color
 " Bundle: https://github.com/altercation/vim-colors-solarized.git
-
+" Bundle: https://github.com/myusuf3/numbers.vim.git 
 runtime bundle/vim-pathogen/autoload/pathogen.vim
 " Bundle: tpope/vim-pathogen
 call pathogen#infect()
