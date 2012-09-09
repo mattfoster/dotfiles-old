@@ -15,6 +15,7 @@
 " Bundle: Railscasts-Theme-GUIand256color
 " Bundle: https://github.com/altercation/vim-colors-solarized.git
 " Bundle: https://github.com/myusuf3/numbers.vim.git 
+" Bundle: https://github.com/Lokaltog/vim-powerline.git develop
 runtime bundle/vim-pathogen/autoload/pathogen.vim
 " Bundle: tpope/vim-pathogen
 call pathogen#infect()
@@ -179,4 +180,4 @@ map <leader>gt :CommandTFlush<cr>\|:CommandT tests<cr>
 " Don't use Ex mode, use Q for formatting
 map Q gq
 
-
+let g:Powerline_symbols='fancy'
