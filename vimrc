@@ -1,7 +1,7 @@
 " Directives for use with: https://github.com/bronson/vim-update-bundles
 " https://raw.github.com/bronson/vim-update-bundles/master/vim-update-bundles
 " Bundle: https://github.com/ervandew/screen.git
-" Bundle: https://github.com/petdance/vim-perl.git
+" Bundle: https://github.com/vim-perl/vim-perl.git
 " Bundle: https://github.com/scrooloose/nerdtree.git
 " Bundle: https://github.com/tpope/vim-fugitive.git
 " Bundle: https://github.com/tpope/vim-markdown.git
@@ -16,6 +16,8 @@
 " Bundle: https://github.com/altercation/vim-colors-solarized.git
 " Bundle: https://github.com/myusuf3/numbers.vim.git 
 " Bundle: https://github.com/Lokaltog/vim-powerline.git develop
+" Bundle:  https://github.com/rodjek/vim-puppet.git
+" Bundle:  https://github.com/krisajenkins/vim-pipe.git
 runtime bundle/vim-pathogen/autoload/pathogen.vim
 " Bundle: tpope/vim-pathogen
 call pathogen#infect()
