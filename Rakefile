@@ -4,7 +4,9 @@
 # require 'fileutils'
 # include FileUtils
 
-def link(file, target)
+nodots = ['bin']
+
+def make_link(file, target)
   # If the destination already exists. Tell us and move it.
   if File.exists?(target)
     $stderr.puts "Target exists. Moving to #{target}.old"
@@ -15,31 +17,39 @@ def link(file, target)
 end
 
 desc "link system specific files, and dotfiles."
-task :link_files => [ :link_system_specifics, :link_dotfiles ] do
-  puts "All dotiles linked."  
+task :make_link_files => [ :make_link_system_specifics, :make_link_dotfiles ] do
+  puts "All dotiles make_linked."  
 end
 
 desc "link dotfiles and dirs into home directory"
-task :link_dotfiles do
+task :make_link_dotfiles do
   Dir['*'].each do |file|
     next if file =~ /install/
-    target = File.join(ENV['HOME'], ".#{file}")  
-    next if File.exists?(target) and File.symlink?(target)  
-    link(file, target)
+
+    if nodots.include? file
+      # No dot here!
+      target = File.join(ENV['HOME'], "#{file}")  
+    else
+      target = File.join(ENV['HOME'], ".#{file}")  
+    end
+
+    next if File.exists?(target) and File.symlink?(target)
+
+    make_link(file, target)
   end
   
 end
 
-desc "link system specific files in specified directories"
-task :link_system_specifics do 
+desc "make_link system specific files in specified directories"
+task :make_link_system_specifics do 
   hostname = %x{hostname}.split('.')[0]
-  puts "Linking system specific files using hostname: #{hostname}"
+  puts "linking system specific files using hostname: #{hostname}"
   Dir['ssh/*'].each do |file|
     next unless file =~ /\.#{hostname}$/
     dir = File.dirname(file)
     target = File.join(dir, File.basename(file, ".#{hostname}"))
-    next if File.exists?(target) and File.symlink?(target)  
-    link(file, target)
+    next if File.exists?(target) and File.symmake_link?(target)  
+    make_link(file, target)
   end
 end
 
@@ -50,4 +60,4 @@ task :install_git_hook do
   `chmod 755 .git/hooks/post-commit`  
 end
 
-task :default => [:link_files, :install_git_hook]
+task :default => [:make_link_files, :install_git_hook]
