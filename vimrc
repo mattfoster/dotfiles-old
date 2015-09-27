@@ -14,12 +14,12 @@
 " Bundle: https://github.com/kien/ctrlp.vim.git
 " Bundle: Railscasts-Theme-GUIand256color
 " Bundle: https://github.com/altercation/vim-colors-solarized.git
-" Bundle: https://github.com/myusuf3/numbers.vim.git 
-" Bundle: https://github.com/Lokaltog/vim-powerline.git develop
+" Bundle: https://github.com/bling/vim-airline.git
 " Bundle:  https://github.com/rodjek/vim-puppet.git
 " Bundle:  https://github.com/krisajenkins/vim-pipe.git
+" Bundle:  https://github.com/krisajenkins/vim-pencil.git
 runtime bundle/vim-pathogen/autoload/pathogen.vim
-" Bundle: tpope/vim-pathogen
+" Bundle: tpope/vim-pathogen ed01fca95
 call pathogen#infect()
 
 set nocompatible
@@ -54,8 +54,13 @@ if &t_Co > 2 || has("gui_running")
   set hlsearch
 endif
 
-set background=dark
-colorscheme railscasts
+" set background=dark
+" colorscheme railscasts
+let g:solarized_termcolors=256
+syntax enable
+set background=light
+colorscheme solarized
+set t_Co=256
 
 " Theme setting:
 if has("gui_running")
@@ -182,4 +187,5 @@ map <leader>gt :CommandTFlush<cr>\|:CommandT tests<cr>
 " Don't use Ex mode, use Q for formatting
 map Q gq
 
-let g:Powerline_symbols='fancy'
+" let g:Powerline_symbols='fancy'
+let g:airline_powerline_fonts = 1
