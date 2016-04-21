@@ -17,7 +17,7 @@
 " Bundle: https://github.com/bling/vim-airline.git
 " Bundle:  https://github.com/rodjek/vim-puppet.git
 " Bundle:  https://github.com/krisajenkins/vim-pipe.git
-" Bundle:  https://github.com/krisajenkins/vim-pencil.git
+" Bundle:  https://github.com/reedes/vim-pencil.git
 runtime bundle/vim-pathogen/autoload/pathogen.vim
 " Bundle: tpope/vim-pathogen ed01fca95
 call pathogen#infect()
@@ -189,3 +189,9 @@ map Q gq
 
 " let g:Powerline_symbols='fancy'
 let g:airline_powerline_fonts = 1
+
+" CtrlP settings - see: http://dougblack.io/words/a-good-vimrc.html
+let g:ctrlp_match_window = 'bottom,order:ttb'
+let g:ctrlp_switch_buffer = 0
+let g:ctrlp_working_path_mode = 0
+let g:ctrlp_user_command = 'ag %s -l --nocolor --hidden -g ""'
