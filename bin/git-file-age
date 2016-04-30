@@ -3,7 +3,7 @@
 function main {
     local reverse=false format='%cr'
     DEBUG=false 
-    local helpstring="List files in a git repo along with when they were last updated"
+    local helpstring="List files in a git repo along with when they were last updated.\n\t-d\tdebug mode (truncate input)\n\t-r\treverse sort order (default oldest first)\n\t-f\tset git date format string (e.g. %cr, %cd, etc.)\n\t-h\tdisplay this help.\n"
 
     OPTIND=1
     while getopts "drf:h" opt; do
