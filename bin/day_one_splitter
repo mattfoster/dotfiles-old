@@ -1,0 +1,139 @@
+#! /usr/bin/env perl
+use warnings;
+use strict;
+
+use File::Spec::Functions qw( catfile );
+use Getopt::Long;
+use Pod::Usage;
+use Time::Piece;
+
+# Default options
+my $output_dir      = 'split';
+my $suffix          = '.md';
+my $filename_format = '%F-%H%M';
+my ($help, $man);
+
+GetOptions(
+    'dir=s'        => \$output_dir,
+    'suffix=s'     => \$suffix,
+    'fmt|format=s' => \$filename_format,
+    'help'         => \$help,
+    'man'          => \$man
+) or pod2usage(2);
+
+pod2usage(1) if $help;
+pod2usage(-exitval => 0, -verbose => 2) if $man;
+
+if ( ! -d $output_dir) {
+    pod2usage(-message => "Destination directory $output_dir doesn't exist");
+}
+
+my $input = shift @ARGV;
+
+pod2usage(-message => "No input file specified.") unless $input;
+pod2usage(-message => "Input file $input doesn't exist") unless -r $input;
+
+my $date_string;
+my $fh;
+my $filename;
+my $in_header = 0;
+
+open(my $input_fh, '<', $input);
+
+while (<$input_fh>) {
+    # There's indentation in Day One's header blocks
+    # This is handy to help distinguish them from HTTP responses!
+    if (/^\tDate:\s*(.*)\s+(GMT|BST)$/) {
+
+        $date_string = $1;
+
+        # At the start of a header block we have a new entry, so close any open files
+        close($fh) if $fh;
+
+        # Now convert the date string to something we can use in a filename
+        $filename = Time::Piece->strptime($date_string, "%d %B %Y at %T")->strftime($filename_format);
+
+        my $output_filename = catfile($output_dir, $filename) . $suffix;
+        if (-e $output_filename) {
+            warn "Output filename $output_filename exists. Refusing to overwrite it and quitting instead!\n";
+            last;
+        }
+
+        open($fh, ">", $output_filename);
+
+        print { $fh } "---\n";
+    }
+
+    # If we're no longer in a header block, we need to close it
+    if ($in_header && $_ !~ /^\t/) {
+        $in_header = 0;
+        $_ .= "---\n\n";
+    }
+
+    # Clean up Day One's front matter
+    if (/^\t(Location|Date|Weather)/) {
+        $_ =~ s{^\s+}{};
+        $_ =~ s{\t}{ };
+        $_ = lcfirst $_;
+        $in_header++;
+    }
+
+    print { $fh } $_;
+}
+
+close($input_fh);
+
+__END__
+
+=head1 NAME 
+
+day_one_splitter - split Day One exports
+
+=head1 SYNOPSIS 
+
+day_one_splitter [options] filename
+
+  Options:
+      --dir		Output directory (must exist)
+      --suffix		Output file suffix
+      --format		Output filename format (strftime format)
+      --help	        Show help.
+
+=head1 OPTIONS
+
+=over 4
+
+=item B<--dir>
+
+Specify an output directory. This must exist, and defaults to S<split>.
+
+=item B<--suffix>
+
+Specify the filename suffix to use when writing output files.
+Defaults to S<.md>.
+
+=item B<--format>
+
+Specify the format to use for output filenames. Defaults to
+S<%F-%H%M>, which leads to filenames that look like: 
+S<2016-12-31-1410.md> with the default S<.md> suffix.
+
+=item B<--help>
+
+Print this help.
+
+=item B<--man>
+
+Print more help, and page it.
+
+=back
+
+=head1 ABOUT
+
+This script takes a Day One output file an splits it into one file per post
+(ignoring images). Use it to split exports up for easy import into other
+software, or use with out flat file based journalling systems.
+
+This was written by Matt Foster S<mpf@hackerific.net>
+
+=cut
