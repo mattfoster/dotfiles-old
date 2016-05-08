@@ -130,9 +130,9 @@ Print more help, and page it.
 
 =head1 ABOUT
 
-This script takes a Day One output file an splits it into one file per post
+This script takes a Day One output file and splits it into one file per post
 (ignoring images). Use it to split exports up for easy import into other
-software, or use with out flat file based journalling systems.
+software, or use with flat file based journalling systems.
 
 This was written by Matt Foster S<mpf@hackerific.net>
 
